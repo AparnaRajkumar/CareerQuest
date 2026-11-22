@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CareerQuest Dashboard</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    background: #F5F0DF;
+    color: #24452F;
+}
+
+header {
+    background: #24452F;
+    color: white;
+    padding: 22px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header button {
+    background: #80864B;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.welcome {
+    background: #80864B;
+    color: white;
+    margin: 30px auto;
+    width: 90%;
+    padding: 30px;
+    border-radius: 12px;
+}
+
+.stats, .modules, .performance {
+    width: 90%;
+    margin: 25px auto;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+    gap: 15px;
+}
+
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.stat-card h2 {
+    color: #795438;
+}
+
+.performance {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+}
+
+.score-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+    gap: 15px;
+}
+
+.score-card {
+    background: #F5F0DF;
+    padding: 18px;
+    border-radius: 10px;
+}
+
+.score-card h3 {
+    color: #795438;
+}
+
+.module-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+    gap: 20px;
+}
+
+.module {
+    display: block;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    border-left: 5px solid #80864B;
+    text-decoration: none;
+    color: #24452F;
+    transition: 0.2s;
+}
+
+.module:hover {
+    transform: translateY(-4px);
+    background: #EAE6D5;
+}
+
+.module h3 {
+    margin-top: 0;
+}
+
+.module p {
+    color: #795438;
+}
+
+.practice-section {
+    width: 90%;
+    margin: 25px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+}
+
+.practice-section input,
+.practice-section select {
+    padding: 12px;
+    width: 100%;
+    margin: 8px 0;
+}
+
+.practice-section button {
+    background: #24452F;
+    color: white;
+    padding: 12px;
+    width: 100%;
+    border: 0;
+    cursor: pointer;
+}
+
+#motivationIcon {
+    position: fixed;
+    bottom: 22px;
+    right: 22px;
+    width: 58px;
+    height: 58px;
+    border: none;
+    border-radius: 50%;
+    background: #80864B;
+    color: white;
+    font-size: 27px;
+    cursor: pointer;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.2);
+    z-index: 9999;
+}
+
+#motivationPopup {
+    display: none;
+    position: fixed;
+    bottom: 92px;
+    right: 22px;
+    width: 300px;
+    background: white;
+    color: #24452F;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+    z-index: 9999;
+}
+
+#motivationPopup h3 {
+    color: #795438;
+    margin-top: 0;
+}
+
+#motivationPopup p {
+    line-height: 1.6;
+}
+
+#motivationPopup button {
+    background: #80864B;
+    color: white;
+    border: none;
+    padding: 9px 15px;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+#closeMotivation {
+    float: right;
+    background: transparent !important;
+    color: #333 !important;
+    font-size: 20px;
+    padding: 0 !important;
+}
+
+.status-message {
+    padding: 12px;
+    background: #EAE6D5;
+    border-radius: 8px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h2>CareerQuest</h2>
+    <button onclick="logout()">Logout</button>
+</header>
+
+<section class="welcome">
+    <h1 id="studentName">Welcome, Student!</h1>
+    <p>Your Career. Your Journey. Your Quest.</p>
+    <p id="studentEmail"></p>
+    <p id="studentDepartment"></p>
+    <p id="graduationYear"></p>
+</section>
+
+<!-- Main dashboard statistics -->
+<section class="stats">
+
+    <div class="stat-card">
+        <h3>Experience Points</h3>
+        <h2 id="xpPoints">Loading...</h2>
+    </div>
+
+    <div class="stat-card">
+        <h3>Current Level</h3>
+        <h2 id="currentLevel">Loading...</h2>
+    </div>
+
+    <div class="stat-card">
+        <h3>Placement Progress</h3>
+        <h2 id="placementProgress">Loading...</h2>
+    </div>
+
+</section>
+
+<!-- Student performance from MySQL -->
+<section class="performance">
+
+    <h2>My Career Performance</h2>
+    <p>Your individual performance scores</p>
+
+    <div class="score-grid">
+
+        <div class="score-card">
+            <h3>Coding Challenges</h3>
+            <h2 id="codingScore">Loading...</h2>
+        </div>
+
+        <div class="score-card">
+            <h3>Aptitude Training</h3>
+            <h2 id="aptitudeScore">Loading...</h2>
+        </div>
+
+        <div class="score-card">
+            <h3>Mock Interviews</h3>
+            <h2 id="interviewScore">Loading...</h2>
+        </div>
+
+    </div>
+
+    <p id="performanceMessage" class="status-message">
+        Loading performance records...
+    </p>
+
+</section>
+
+<!-- External practice progress -->
+<section class="practice-section">
+
+    <h2>External Practice Progress 🌟</h2>
+    <p>Record your scores from external learning platforms.</p>
+
+    <select id="platform">
+        <option value="LeetCode">LeetCode</option>
+        <option value="HackerRank">HackerRank</option>
+        <option value="IndiaBIX">IndiaBIX</option>
+        <option value="GeeksforGeeks">GeeksforGeeks</option>
+    </select>
+
+    <input id="practiceScore" type="number"
+           min="0" max="100"
+           placeholder="Enter score (0-100)">
+
+    <button onclick="savePracticeScore()">
+        Save Practice Score
+    </button>
+
+    <h3>Your Recorded Scores</h3>
+    <div id="practiceResults"></div>
+
+</section>
+
+<!-- Nine CareerQuest modules -->
+<section class="modules">
+
+<h2>Your Career Modules</h2>
+
+<div class="module-grid">
+
+<a href="student-profile.html" class="module">
+<h3>01. Student Registration</h3>
+<p>View your student details.</p>
+</a>
+
+<a href="dashboard.html" class="module">
+<h3>02. Career Dashboard</h3>
+<p>View your career progress.</p>
+</a>
+
+<a href="coding.html" class="module">
+<h3>03. Coding Challenges</h3>
+<p>Practice programming questions.</p>
+</a>
+
+<a href="aptitude.html" class="module">
+<h3>04. Aptitude Training</h3>
+<p>Practice aptitude questions.</p>
+</a>
+
+<a href="interview.html" class="module">
+<h3>05. Mock Interviews</h3>
+<p>Practice interview questions.</p>
+</a>
+
+<a href="achievements.html" class="module">
+<h3>06. Achievement System</h3>
+<p>Explore badges and XP points.</p>
+</a>
+
+<a href="readiness.html" class="module">
+<h3>07. Placement Readiness</h3>
+<p>View your preparation progress.</p>
+</a>
+
+<a href="resume.html" class="module">
+<h3>08. Resume Builder</h3>
+<p>Create your professional resume.</p>
+</a>
+
+<a href="profile.html" class="module">
+<h3>09. Developer Profile</h3>
+<p>Showcase your skills and projects.</p>
+</a>
+
+</div>
+</section>
+
+<!-- Motivational quotes -->
+<button id="motivationIcon" title="Daily Motivation">
+    🎓
+</button>
+
+<div id="motivationPopup">
+
+    <button id="closeMotivation">×</button>
+
+    <h3>✨ Daily Motivation</h3>
+
+    <p id="motivationQuote"></p>
+
+    <button id="newQuote">New Quote</button>
+
+</div>
+
+<script>
+
+// ====================================
+// 1. STUDENT LOGIN AND PROFILE
+// ====================================
+
+const studentId = localStorage.getItem("studentId");
+
+if (!studentId) {
+
+    window.location.href = "index.html";
+
+} else {
+
+    loadStudentDetails();
+    loadStudentPerformance();
+    displayPracticeScores();
+
+}
+
+function loadStudentDetails() {
+
+    fetch("http://localhost:8080/api/students/" + studentId)
+
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Unable to load student");
+        }
+        return response.json();
+    })
+
+    .then(student => {
+
+        document.getElementById("studentName").textContent =
+            "Welcome, " + student.fullName + "!";
+
+        document.getElementById("studentEmail").textContent =
+            "Email: " + student.email;
+
+        document.getElementById("studentDepartment").textContent =
+            "Department: " + student.department;
+
+        document.getElementById("graduationYear").textContent =
+            "Graduation Year: " + student.graduationYear;
+
+    })
+
+    .catch(error => {
+        console.error(error);
+        document.getElementById("studentName").textContent =
+            "Unable to load student details.";
+    });
+
+}
+
+
+// ====================================
+// 2. LOAD PERFORMANCE FROM MYSQL
+// ====================================
+
+function loadStudentPerformance() {
+
+    fetch("http://localhost:8080/api/students/"
+        + studentId + "/performance")
+
+    .then(response => {
+
+        if (!response.ok) {
+            throw new Error("Performance records not found");
+        }
+
+        return response.json();
+
+    })
+
+    .then(data => {
+
+        document.getElementById("codingScore").textContent =
+            data.codingScore + "/100";
+
+        document.getElementById("aptitudeScore").textContent =
+            data.aptitudeScore + "/100";
+
+        document.getElementById("interviewScore").textContent =
+            data.interviewScore + "/100";
+
+        document.getElementById("xpPoints").textContent =
+            data.xpPoints + " XP";
+
+        document.getElementById("currentLevel").textContent =
+            "Level " + data.level;
+
+        document.getElementById("placementProgress").textContent =
+            data.placementReadiness + "%";
+
+        document.getElementById("performanceMessage").textContent =
+            "Your performance data was successfully loaded.";
+
+    })
+
+    .catch(error => {
+
+        console.error("Performance error:", error);
+
+        document.getElementById("performanceMessage").textContent =
+            "Unable to load scores. Please check your backend API and database.";
+
+        document.getElementById("codingScore").textContent = "--";
+        document.getElementById("aptitudeScore").textContent = "--";
+        document.getElementById("interviewScore").textContent = "--";
+        document.getElementById("xpPoints").textContent = "--";
+        document.getElementById("currentLevel").textContent = "--";
+        document.getElementById("placementProgress").textContent = "--";
+
+    });
+
+}
+
+
+// ====================================
+// 3. EXTERNAL PRACTICE SCORES
+// ====================================
+
+function getPracticeKey() {
+    return "externalScores_" + studentId;
+}
+
+function savePracticeScore() {
+
+    const platform =
+        document.getElementById("platform").value;
+
+    const scoreInput =
+        document.getElementById("practiceScore").value;
+
+    const score = Number(scoreInput);
+
+    if (scoreInput === "" || score < 0 || score > 100) {
+        alert("Enter a score between 0 and 100");
+        return;
+    }
+
+    let records = JSON.parse(
+        localStorage.getItem(getPracticeKey()) || "[]"
+    );
+
+    records.push({platform, score});
+
+    localStorage.setItem(
+        getPracticeKey(),
+        JSON.stringify(records)
+    );
+
+    document.getElementById("practiceScore").value = "";
+
+    displayPracticeScores();
+
+}
+
+function displayPracticeScores() {
+
+    const records = JSON.parse(
+        localStorage.getItem(getPracticeKey()) || "[]"
+    );
+
+    const results =
+        document.getElementById("practiceResults");
+
+    results.innerHTML = "";
+
+    records.forEach(record => {
+
+        const item = document.createElement("p");
+
+        item.textContent =
+            record.platform + ": " + record.score + "/100";
+
+        results.appendChild(item);
+
+    });
+
+}
+
+
+// ====================================
+// 4. LOGOUT
+// ====================================
+
+function logout() {
+
+    localStorage.removeItem("studentId");
+
+    window.location.href = "index.html";
+
+}
+
+
+// ====================================
+// 5. MOTIVATIONAL QUOTES
+// ====================================
+
+(function() {
+
+    const quotes = [
+
+        "Great things take time. Keep building your future!",
+        "Every expert was once a beginner.",
+        "Your skills today create your opportunities tomorrow.",
+        "Small progress is still progress.",
+        "Believe in yourself and keep learning.",
+        "Dream big. Work hard. Achieve more.",
+        "Every challenge is an opportunity to grow.",
+        "Your future is created by what you do today.",
+        "Success begins with the courage to start.",
+        "Keep going. Your efforts will make a difference.",
+        "Learn something new every day.",
+        "Don't compare your journey with others. Focus on your growth."
+
+    ];
+
+    const icon =
+        document.getElementById("motivationIcon");
+
+    const popup =
+        document.getElementById("motivationPopup");
+
+    const quote =
+        document.getElementById("motivationQuote");
+
+    const close =
+        document.getElementById("closeMotivation");
+
+    const newQuote =
+        document.getElementById("newQuote");
+
+    let lastQuote = -1;
+
+    function showQuote() {
+
+        let index;
+
+        do {
+            index = Math.floor(Math.random() * quotes.length);
+        } while (index === lastQuote);
+
+        lastQuote = index;
+
+        quote.textContent = quotes[index];
+
+        popup.style.display = "block";
+
+    }
+
+    icon.addEventListener("click", function() {
+
+        if (popup.style.display === "block") {
+            popup.style.display = "none";
+        } else {
+            showQuote();
+        }
+
+    });
+
+    close.addEventListener("click", function() {
+
+        popup.style.display = "none";
+
+    });
+
+    newQuote.addEventListener("click", showQuote);
+
+    // Automatically show after 90 seconds on dashboard
+    setTimeout(function() {
+
+        if (document.visibilityState === "visible") {
+            showQuote();
+        }
+
+    }, 90000);
+
+})();
+
+</script>
+
+</body>
+</html>

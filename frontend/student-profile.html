@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Student Profile</title>
+<style>
+body{background:#F5F0DF;color:#24452F;font-family:Arial;padding:25px}
+.box{background:white;padding:25px;border-radius:12px;max-width:650px;margin:auto}
+</style>
+</head>
+<body>
+<div class="box">
+<h1>Student Profile</h1>
+<p id="name">Loading student details...</p>
+<p id="email"></p>
+<p id="department"></p>
+<p id="year"></p>
+<a href="dashboard.html">Back to Dashboard</a>
+</div>
+<script>
+const id=localStorage.getItem("studentId");
+if(id){
+fetch("http://localhost:8080/api/students/"+id)
+.then(r=>{
+if(!r.ok)throw new Error("Unable to load profile");
+return r.json();
+})
+.then(s=>{
+document.getElementById("name").innerText="Name: "+s.fullName;
+document.getElementById("email").innerText="Email: "+s.email;
+document.getElementById("department").innerText="Department: "+s.department;
+document.getElementById("year").innerText="Graduation Year: "+s.graduationYear;
+})
+.catch(()=>document.getElementById("name").innerText="Could not load student details.");
+}else{
+document.getElementById("name").innerText="Please login first.";
+}
+</script>
+</body>
+</html>

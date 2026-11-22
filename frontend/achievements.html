@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CareerQuest - Achievements</title>
+
+<style>
+* {box-sizing:border-box;font-family:Arial,sans-serif;}
+
+body {
+    margin:0;
+    padding:20px;
+    background:#F5F0DF;
+    color:#24452F;
+}
+
+.container {
+    max-width:950px;
+    margin:auto;
+}
+
+header {
+    background:#24452F;
+    color:white;
+    padding:25px;
+    border-radius:12px;
+    margin-bottom:20px;
+}
+
+.card {
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    margin-bottom:20px;
+}
+
+input,select,textarea {
+    width:100%;
+    padding:12px;
+    margin:8px 0 15px;
+    border:1px solid #ccc;
+    border-radius:6px;
+}
+
+button {
+    background:#24452F;
+    color:white;
+    padding:12px 20px;
+    border:0;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+button:hover {background:#80864B;}
+
+.stats {
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:15px;
+}
+
+.stat {
+    background:#EAE6D5;
+    padding:18px;
+    border-radius:10px;
+}
+
+.stat h2 {color:#795438;}
+
+.progress {
+    background:#ddd;
+    height:13px;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+#progressBar {
+    background:#80864B;
+    height:100%;
+    width:0%;
+}
+
+.item {
+    background:#F5F0DF;
+    padding:15px;
+    margin:12px 0;
+    border-radius:8px;
+}
+
+.item a {color:#795438;}
+
+.event {
+    border-left:5px solid #80864B;
+    padding:15px;
+    margin:15px 0;
+    background:#F5F0DF;
+    border-radius:6px;
+}
+
+.event a {color:#795438;font-weight:bold;}
+
+small {color:#795438;}
+
+#message {font-weight:bold;}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+<h1>🏆 CareerQuest Achievements</h1>
+<p>Celebrate your achievements. Earn XP. Level up!</p>
+</header>
+
+<!-- XP DASHBOARD -->
+
+<div class="card">
+
+<h2>Your Achievement Dashboard</h2>
+
+<div class="stats">
+
+<div class="stat">
+<h3>Total XP</h3>
+<h2 id="xp">0</h2>
+</div>
+
+<div class="stat">
+<h3>Current Level</h3>
+<h2 id="level">1</h2>
+</div>
+
+<div class="stat">
+<h3>Achievements</h3>
+<h2 id="count">0</h2>
+</div>
+
+</div>
+
+<h3 id="levelText">Level 1 - Beginner</h3>
+
+<div class="progress">
+<div id="progressBar"></div>
+</div>
+
+<p id="progressText"></p>
+
+</div>
+
+<!-- ADD ACHIEVEMENT -->
+
+<div class="card">
+
+<h2>Add Your Achievement</h2>
+
+<form id="achievementForm">
+
+<label>Achievement Title</label>
+<input id="title" required
+placeholder="Example: Java Programming Certificate">
+
+<label>Achievement Category</label>
+
+<select id="category">
+<option>Certification</option>
+<option>Hackathon</option>
+<option>Coding Competition</option>
+<option>Workshop</option>
+<option>Internship</option>
+<option>Academic Achievement</option>
+<option>Other</option>
+</select>
+
+<label>Description</label>
+<textarea id="description" rows="3"
+placeholder="Describe your achievement"></textarea>
+
+<label>Achievement Date</label>
+<input type="date" id="date" required>
+
+<label>Upload Certificate (PDF, JPG or PNG)</label>
+<input type="file" id="certificate"
+accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png">
+
+<small>Maximum file size: 1 MB. Upload is optional for manual entries.</small>
+
+<p id="message"></p>
+
+<button type="submit">Add Achievement</button>
+
+</form>
+
+</div>
+
+<!-- ACHIEVEMENT HISTORY -->
+
+<div class="card">
+
+<h2>My Achievement History</h2>
+
+<div id="history">
+<p>No achievements added yet.</p>
+</div>
+
+</div>
+
+<!-- EVENTS -->
+
+<div class="card">
+
+<h2>🌟 Upcoming Events and Opportunities</h2>
+
+<p>Explore hackathons, developer events, workshops and student opportunities.</p>
+
+<div class="event">
+<h3>💻 Online Hackathons</h3>
+<p>Explore coding competitions, innovation challenges and team projects.</p>
+<a href="https://devpost.com/hackathons/"
+target="_blank" rel="noopener">Explore Devpost Hackathons →</a>
+</div>
+
+<div class="event">
+<h3>🌐 Google Developer Events</h3>
+<p>Discover DevFest, coding workshops and developer community events.</p>
+<a href="https://developers.google.com/community/devfest"
+target="_blank" rel="noopener">Explore Google DevFest →</a>
+</div>
+
+<div class="event">
+<h3>🚀 Microsoft Student Events</h3>
+<p>Explore student innovation sessions, AI workshops and technical learning events.</p>
+<a href="https://developer.microsoft.com/en-us/events"
+target="_blank" rel="noopener">Explore Microsoft Events →</a>
+</div>
+
+<div class="event">
+<h3>🎓 Microsoft Student Innovator Series</h3>
+<p>Discover student-focused AI and cloud learning sessions.</p>
+<a href="https://developer.microsoft.com/en-us/reactor/series/S-1386/"
+target="_blank" rel="noopener">Explore Student Innovator Series →</a>
+</div>
+
+<p><small>Event dates, eligibility, age requirements and registration availability may vary. Check the official event page before registering.</small></p>
+
+</div>
+
+<a href="dashboard.html">← Back to Dashboard</a>
+
+</div>
+
+<script>
+
+const form = document.getElementById("achievementForm");
+
+let achievements = JSON.parse(
+    localStorage.getItem("cqAchievements") || "[]"
+);
+
+function getXP() {
+    return Number(localStorage.getItem("careerXP") || 0);
+}
+
+function getLevel(xp) {
+    return Math.floor(xp / 200) + 1;
+}
+
+function refreshDashboard() {
+
+    const xp = getXP();
+    const level = getLevel(xp);
+    const progress = xp % 200;
+
+    document.getElementById("xp").innerText = xp;
+    document.getElementById("level").innerText = level;
+    document.getElementById("count").innerText =
+        achievements.length;
+
+    document.getElementById("levelText").innerText =
+        level === 1 ? "Level 1 - Beginner" :
+        level === 2 ? "Level 2 - Explorer" :
+        level === 3 ? "Level 3 - Achiever" :
+        level === 4 ? "Level 4 - Champion" :
+        "Level " + level + " - CareerQuest Master";
+
+    document.getElementById("progressBar").style.width =
+        (progress / 200 * 100) + "%";
+
+    document.getElementById("progressText").innerText =
+        progress + " / 200 XP towards next level";
+}
+
+function safe(text) {
+    return String(text || "").replace(/[&<>"']/g, c => ({
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#39;"
+    })[c]);
+}
+
+function displayHistory() {
+
+    const history = document.getElementById("history");
+
+    if(achievements.length === 0) {
+        history.innerHTML = "<p>No achievements added yet.</p>";
+        return;
+    }
+
+    history.innerHTML = "";
+
+    achievements.forEach(item => {
+
+        const div = document.createElement("div");
+        div.className = "item";
+
+        div.innerHTML = `
+            <h3>🏅 ${safe(item.title)}</h3>
+            <p><b>Category:</b> ${safe(item.category)}</p>
+            <p>${safe(item.description)}</p>
+            <p><b>Date:</b> ${safe(item.date)}</p>
+            <p><b>XP earned:</b> ${item.xp} XP</p>
+            <p><b>Submission:</b> ${item.fileName ?
+                safe(item.fileName) : "Manual entry"}</p>
+            ${item.fileData ?
+                `<a href="${item.fileData}" target="_blank"
+                rel="noopener">View uploaded certificate</a>` : ""}
+        `;
+
+        history.appendChild(div);
+    });
+}
+
+form.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const title = document.getElementById("title").value.trim();
+    const category = document.getElementById("category").value;
+    const description = document.getElementById("description").value.trim();
+    const date = document.getElementById("date").value;
+    const file = document.getElementById("certificate").files[0];
+
+    if(file && file.size > 1024 * 1024) {
+        alert("Please upload a file smaller than 1 MB.");
+        return;
+    }
+
+    if(achievements.some(a =>
+        a.title.toLowerCase() === title.toLowerCase()
+    )) {
+        alert("This achievement has already been added.");
+        return;
+    }
+
+    function saveAchievement(fileData = "", fileName = "") {
+
+        const xpEarned = file ? 100 : 50;
+
+        const achievement = {
+            title,
+            category,
+            description,
+            date,
+            fileName,
+            fileData,
+            xp: xpEarned
+        };
+
+        achievements.push(achievement);
+
+        try {
+            localStorage.setItem(
+                "cqAchievements",
+                JSON.stringify(achievements)
+            );
+
+            localStorage.setItem(
+                "careerXP",
+                getXP() + xpEarned
+            );
+
+        } catch(error) {
+
+            achievements.pop();
+
+            alert("Browser storage is full. Try a smaller certificate file.");
+            return;
+        }
+
+        document.getElementById("message").innerText =
+            "Achievement added! You earned " + xpEarned + " XP!";
+
+        form.reset();
+
+        refreshDashboard();
+        displayHistory();
+    }
+
+    if(file) {
+
+        const reader = new FileReader();
+
+        reader.onload = function() {
+            saveAchievement(reader.result, file.name);
+        };
+
+        reader.onerror = function() {
+            alert("Unable to read this file.");
+        };
+
+        reader.readAsDataURL(file);
+
+    } else {
+        saveAchievement();
+    }
+
+});
+
+refreshDashboard();
+displayHistory();
+
+</script>
+
+</body>
+</html>

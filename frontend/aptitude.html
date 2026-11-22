@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CareerQuest - Aptitude Training</title>
+
+<style>
+body {
+    background:#F5F0DF;
+    color:#24452F;
+    font-family:Arial,sans-serif;
+    padding:20px;
+}
+.container {
+    max-width:750px;
+    margin:25px auto;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+}
+button {
+    display:block;
+    width:100%;
+    padding:13px;
+    margin:10px 0;
+    background:#24452F;
+    color:white;
+    border:0;
+    border-radius:6px;
+    cursor:pointer;
+}
+button:hover {background:#80864B;}
+select {
+    padding:12px;
+    width:100%;
+    margin:15px 0;
+}
+#result {font-weight:bold;margin:20px 0;}
+a {color:#795438;}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h1>CareerQuest</h1>
+<h2>Aptitude Training 🧠</h2>
+<p>Improve your placement preparation skills!</p>
+
+<label>Select Category</label>
+<select id="category" onchange="startCategory()">
+<option value="quant">Quantitative Aptitude</option>
+<option value="logic">Logical Reasoning</option>
+<option value="verbal">Verbal Ability</option>
+</select>
+
+<h3 id="progress"></h3>
+<h3 id="question"></h3>
+
+<div id="options"></div>
+
+<p id="result"></p>
+
+<button id="next" onclick="nextQuestion()" hidden>
+Next Question →
+</button>
+
+<h3 id="score"></h3>
+
+<a href="dashboard.html">← Back to Dashboard</a>
+
+</div>
+
+<script>
+
+const quiz = {
+
+quant: [
+["What is 20% of 150?",["20","30","40","50"],1],
+["What is 12 × 8?",["86","94","96","98"],2],
+["What is the square of 9?",["18","72","81","99"],2],
+["What is 144 divided by 12?",["10","11","12","14"],2],
+["What is 25% of 400?",["50","75","100","125"],2],
+["A car travels 60 km in 1 hour. How far in 3 hours?",["120","150","180","200"],2],
+["What is 15 + 27?",["40","41","42","43"],2],
+["What is 7 squared?",["14","42","49","56"],2],
+["What is half of 250?",["100","115","125","150"],2],
+["If x + 5 = 12, find x.",["5","6","7","8"],2]
+],
+
+logic: [
+["Find the next number: 2, 4, 6, 8, ?",["9","10","12","14"],1],
+["Find the odd one out.",["Apple","Mango","Carrot","Banana"],2],
+["If CAT = 3 letters, how many letters are in ELEPHANT?",["6","7","8","9"],2],
+["Find the next number: 5, 10, 15, 20, ?",["22","25","30","35"],1],
+["Which direction is opposite to North?",["East","West","South","North-East"],2],
+["Find the odd number.",["2","4","6","9"],3],
+["Complete: Monday, Tuesday, Wednesday, ?",["Friday","Thursday","Sunday","Saturday"],1],
+["How many sides does a hexagon have?",["4","5","6","8"],2],
+["Find the next number: 1, 4, 9, 16, ?",["20","24","25","36"],2],
+["Which is the smallest?",["0.5","0.05","0.55","0.9"],1]
+],
+
+verbal: [
+["Choose the synonym of Happy.",["Sad","Joyful","Angry","Tired"],1],
+["Choose the antonym of Ancient.",["Old","Historic","Modern","Past"],2],
+["Choose the correct spelling.",["Succesful","Successful","Successfull","Sucessful"],1],
+["Fill in: She _ going to college.",["are","am","is","be"],2],
+["Plural of Child?",["Childs","Children","Childes","Childrens"],1],
+["Choose the synonym of Quick.",["Slow","Fast","Weak","Late"],1],
+["Antonym of Brave?",["Courageous","Fearless","Cowardly","Strong"],2],
+["Choose the correct article: _ apple.",["A","An","Thee","No article"],1],
+["Past tense of Go?",["Gone","Going","Went","Goes"],2],
+["Which is a noun?",["Run","Beautiful","Teacher","Quickly"],2]
+]
+
+};
+
+let questions = [];
+let current = 0;
+let points = 0;
+let category = "";
+
+function startCategory() {
+    category = document.getElementById("category").value;
+    questions = quiz[category];
+    current = 0;
+    points = 0;
+    document.getElementById("score").innerText = "";
+    loadQuestion();
+}
+
+function loadQuestion() {
+
+    document.getElementById("result").innerText = "";
+    document.getElementById("next").hidden = true;
+
+    if(current >= questions.length) {
+        finish();
+        return;
+    }
+
+    const q = questions[current];
+
+    document.getElementById("progress").innerText =
+        "Question " + (current+1) + " of " + questions.length;
+
+    document.getElementById("question").innerText = q[0];
+
+    const options = document.getElementById("options");
+    options.innerHTML = "";
+
+    q[1].forEach((option,index) => {
+        const btn = document.createElement("button");
+        btn.innerText = option;
+        btn.onclick = () => checkAnswer(index);
+        options.appendChild(btn);
+    });
+}
+
+function checkAnswer(index) {
+
+    const buttons = document.querySelectorAll("#options button");
+    buttons.forEach(button => button.disabled = true);
+
+    if(index === questions[current][2]) {
+
+        points += 10;
+
+        document.getElementById("result").innerText =
+            "Correct! +10 XP 🎉";
+
+        document.getElementById("result").style.color = "green";
+
+    } else {
+
+        document.getElementById("result").innerText =
+            "Incorrect! Correct answer: " +
+            questions[current][1][questions[current][2]];
+
+        document.getElementById("result").style.color = "red";
+    }
+
+    document.getElementById("next").hidden = false;
+}
+
+function nextQuestion() {
+    current++;
+    loadQuestion();
+}
+
+function finish() {
+
+    document.getElementById("question").innerText =
+        "Category Completed! 🏆";
+
+    document.getElementById("options").innerHTML = "";
+
+    document.getElementById("result").innerText =
+        "Your score: " + points + " XP out of 100 XP";
+
+    let xp = Number(localStorage.getItem("careerXP") || 0);
+
+    localStorage.setItem("careerXP", xp + points);
+
+    document.getElementById("score").innerText =
+        "Excellent effort! Keep practising.";
+
+    document.getElementById("next").hidden = true;
+}
+
+startCategory();
+
+</script>
+</body>
+</html>

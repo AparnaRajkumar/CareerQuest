@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CareerQuest - Coding Challenges</title>
+
+<style>
+body {
+    background:#F5F0DF;
+    color:#24452F;
+    font-family:Arial,sans-serif;
+    padding:20px;
+}
+.container {
+    max-width:750px;
+    margin:25px auto;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+}
+h1 {color:#24452F;}
+.info {color:#795438;}
+button {
+    display:block;
+    width:100%;
+    padding:13px;
+    margin:10px 0;
+    background:#24452F;
+    color:white;
+    border:0;
+    border-radius:6px;
+    cursor:pointer;
+}
+button:hover {background:#80864B;}
+#result {font-weight:bold;margin:20px 0;}
+.progress {
+    background:#ddd;
+    height:10px;
+    border-radius:10px;
+}
+#bar {
+    background:#80864B;
+    height:10px;
+    width:0%;
+    border-radius:10px;
+}
+a {color:#795438;}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>CareerQuest</h1>
+<h2>Coding Challenges 💻</h2>
+
+<p class="info">Test your programming knowledge and earn XP!</p>
+
+<p id="progressText">Question 1 of 10</p>
+<div class="progress"><div id="bar"></div></div>
+
+<h3 id="question"></h3>
+<div id="options"></div>
+
+<p id="result"></p>
+
+<button id="next" onclick="nextQuestion()" hidden>
+Next Question →
+</button>
+
+<h3 id="score"></h3>
+
+<a href="dashboard.html">← Back to Dashboard</a>
+
+</div>
+
+<script>
+
+const questions = [
+
+{
+q:"Which language is used to structure web pages?",
+o:["Java","HTML","Python","C++"],
+a:1,
+e:"HTML defines the structure of web pages."
+},
+
+{
+q:"Which keyword declares a variable in Java?",
+o:["int","class","new","return"],
+a:0,
+e:"int declares an integer variable in Java."
+},
+
+{
+q:"Which symbol is used for comments in Java?",
+o:["//","##","<!--","**"],
+a:0,
+e:"Double slash begins a single-line Java comment."
+},
+
+{
+q:"Which data type stores true or false?",
+o:["int","String","boolean","double"],
+a:2,
+e:"Boolean stores true or false values."
+},
+
+{
+q:"Which loop executes while a condition is true?",
+o:["if","while","switch","break"],
+a:1,
+e:"The while loop repeats while its condition is true."
+},
+
+{
+q:"Which language is commonly used for browser scripting?",
+o:["JavaScript","C","SQL","Assembly"],
+a:0,
+e:"JavaScript adds interactive behaviour to websites."
+},
+
+{
+q:"Which collection stores unique elements in Java?",
+o:["ArrayList","HashSet","LinkedList","Array"],
+a:1,
+e:"HashSet stores unique elements."
+},
+
+{
+q:"What does SQL stand for?",
+o:["Structured Query Language","Simple Question Language","System Query Link","Standard Quick Logic"],
+a:0,
+e:"SQL means Structured Query Language."
+},
+
+{
+q:"Which keyword creates a class in Java?",
+o:["function","class","define","object"],
+a:1,
+e:"The class keyword declares a Java class."
+},
+
+{
+q:"Which method is the usual Java program entry point?",
+o:["start()","run()","main()","execute()"],
+a:2,
+e:"The main method is the standard Java entry point."
+}
+
+];
+
+let current = 0;
+let score = 0;
+let answered = false;
+
+const completed = JSON.parse(
+    localStorage.getItem("codingCompleted") || "[]"
+);
+
+function loadQuestion() {
+
+    answered = false;
+
+    document.getElementById("result").innerText = "";
+    document.getElementById("next").hidden = true;
+
+    if(current >= questions.length) {
+        finish();
+        return;
+    }
+
+    const q = questions[current];
+
+    document.getElementById("question").innerText = q.q;
+    document.getElementById("progressText").innerText =
+        "Question " + (current+1) + " of " + questions.length;
+
+    document.getElementById("bar").style.width =
+        (current/questions.length*100) + "%";
+
+    const options = document.getElementById("options");
+    options.innerHTML = "";
+
+    q.o.forEach((option,index) => {
+
+        const btn = document.createElement("button");
+        btn.innerText = option;
+
+        btn.onclick = () => checkAnswer(index);
+
+        options.appendChild(btn);
+
+    });
+
+}
+
+function checkAnswer(index) {
+
+    if(answered) return;
+
+    answered = true;
+
+    const q = questions[current];
+    const result = document.getElementById("result");
+
+    if(index === q.a) {
+
+        result.innerText = "Correct! +10 XP 🎉";
+        result.style.color = "green";
+
+        if(!completed.includes(current)) {
+            score += 10;
+            completed.push(current);
+
+            localStorage.setItem(
+                "codingCompleted",
+                JSON.stringify(completed)
+            );
+
+            let xp = Number(
+                localStorage.getItem("careerXP") || 0
+            );
+
+            localStorage.setItem("careerXP",xp+10);
+        }
+
+    } else {
+
+        result.innerText = "Incorrect. " + q.e;
+        result.style.color = "#A33";
+
+    }
+
+    document.getElementById("score").innerText =
+        "XP earned in this session: " + score;
+
+    document.getElementById("next").hidden = false;
+}
+
+function nextQuestion() {
+    current++;
+    loadQuestion();
+}
+
+function finish() {
+
+    document.getElementById("question").innerText =
+        "Coding Challenge Completed! 🏆";
+
+    document.getElementById("options").innerHTML = "";
+
+    document.getElementById("result").innerText =
+        "You earned " + score + " XP in this session!";
+
+    document.getElementById("progressText").innerText =
+        "All questions completed";
+
+    document.getElementById("bar").style.width = "100%";
+
+    document.getElementById("next").hidden = true;
+}
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>

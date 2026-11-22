@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CareerQuest - Student Registration</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #F5F0DF;
+            margin: 0;
+            padding: 30px 15px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #24452F;
+        }
+
+        p {
+            text-align: center;
+            color: #795438;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #24452F;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 7px;
+            border: 1px solid #aaa;
+            border-radius: 6px;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            margin-top: 22px;
+            background: #24452F;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #80864B;
+        }
+
+        a {
+            color: #795438;
+        }
+
+        .login {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>CareerQuest</h1>
+    <p>Start Your Career Journey!</p>
+
+    <h2>Student Registration</h2>
+
+    <form id="registerForm">
+
+        <label>Full Name</label>
+        <input type="text" id="fullName" required>
+
+        <label>Email</label>
+        <input type="email" id="email" required>
+
+        <label>Password</label>
+        <input type="password" id="password" minlength="8" required>
+
+        <label>Department</label>
+        <input type="text" id="department" required>
+
+        <label>Graduation Year</label>
+        <input type="number" id="graduationYear"
+               min="2026" max="2035" required>
+
+        <button type="submit">Create Account</button>
+
+    </form>
+
+    <div class="login">
+        Already registered?
+        <a href="index.html">Login</a>
+    </div>
+
+</div>
+
+<script src="js/register.js"></script>
+
+</body>
+</html>

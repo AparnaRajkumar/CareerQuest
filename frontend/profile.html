@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Developer Profile</title>
+<style>
+body{background:#F5F0DF;color:#24452F;font-family:Arial;padding:25px}
+.box{background:white;padding:25px;border-radius:12px;max-width:650px;margin:auto}
+input,textarea{width:100%;padding:10px;margin:8px 0;box-sizing:border-box}
+button{background:#24452F;color:white;padding:12px;border:0}
+</style>
+</head>
+<body>
+<div class="box">
+<h1>Developer Profile</h1>
+<input id="name" placeholder="Developer Name">
+<input id="skills" placeholder="Technical Skills">
+<input id="github" placeholder="GitHub Profile URL">
+<textarea id="projects" placeholder="Your Projects"></textarea>
+<button onclick="save()">Save Profile</button>
+<p id="result"></p>
+<a href="dashboard.html">Back to Dashboard</a>
+</div>
+<script>
+function save(){
+let data={
+name:document.getElementById("name").value,
+skills:document.getElementById("skills").value,
+github:document.getElementById("github").value,
+projects:document.getElementById("projects").value
+};
+localStorage.setItem("developerProfile",JSON.stringify(data));
+document.getElementById("result").innerText="Profile saved in this browser!";
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CareerQuest - Resume Builder</title>
+
+<style>
+body {
+    background:#F5F0DF;
+    color:#24452F;
+    font-family:Arial,sans-serif;
+    padding:20px;
+}
+.container {
+    max-width:850px;
+    margin:20px auto;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+}
+input, textarea {
+    width:100%;
+    padding:12px;
+    margin:8px 0 15px;
+    border:1px solid #ccc;
+    border-radius:5px;
+    box-sizing:border-box;
+}
+button {
+    background:#24452F;
+    color:white;
+    padding:13px 20px;
+    border:0;
+    border-radius:6px;
+    cursor:pointer;
+    margin:10px 5px 10px 0;
+}
+button:hover {background:#80864B;}
+#resume {
+    display:none;
+    background:white;
+    border:1px solid #ccc;
+    padding:35px;
+    margin-top:30px;
+    color:#222;
+}
+#resume h1 {
+    color:#24452F;
+    border-bottom:2px solid #80864B;
+    padding-bottom:10px;
+}
+#resume h3 {
+    color:#795438;
+    border-bottom:1px solid #ddd;
+    padding-bottom:5px;
+}
+a {color:#795438;}
+@media print {
+    body {background:white;padding:0;}
+    .container {display:none;}
+    #resume {
+        display:block !important;
+        border:none;
+        margin:0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>CareerQuest Resume Builder</h1>
+<p>Create your professional student resume.</p>
+
+<h3>Personal Information</h3>
+
+<input id="name" placeholder="Full Name" required>
+<input id="email" type="email" placeholder="Email Address" required>
+<input id="phone" placeholder="Phone Number">
+<input id="location" placeholder="City">
+
+<h3>Career Objective</h3>
+<textarea id="objective" rows="3"
+placeholder="Write your career objective"></textarea>
+
+<h3>Education</h3>
+<input id="degree" placeholder="Degree / Department">
+<input id="college" placeholder="College Name">
+<input id="cgpa" placeholder="CGPA">
+<input id="year" placeholder="Graduation Year">
+
+<h3>Technical Skills</h3>
+<textarea id="skills" rows="3"
+placeholder="Java, Python, HTML, CSS, SQL..."></textarea>
+
+<h3>Projects</h3>
+<textarea id="projects" rows="4"
+placeholder="Project name and description"></textarea>
+
+<h3>Certifications</h3>
+<textarea id="certificates" rows="3"
+placeholder="Enter your certifications"></textarea>
+
+<h3>Achievements</h3>
+<textarea id="achievements" rows="3"
+placeholder="Enter your achievements"></textarea>
+
+<button onclick="generateResume()">
+Generate My Resume
+</button>
+
+<button onclick="printResume()">
+Download / Save as PDF
+</button>
+
+<div id="resume"></div>
+
+<br>
+<a href="dashboard.html">← Back to Dashboard</a>
+
+</div>
+
+<script>
+
+function safe(value) {
+    return value.replace(/[&<>"']/g, function(c) {
+        return {
+            "&":"&amp;",
+            "<":"&lt;",
+            ">":"&gt;",
+            '"':"&quot;",
+            "'":"&#39;"
+        }[c];
+    });
+}
+
+function generateResume() {
+
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+
+    if(!name || !email) {
+        alert("Please enter your name and email.");
+        return;
+    }
+
+    const fields = [
+        "name","email","phone","location","objective",
+        "degree","college","cgpa","year","skills",
+        "projects","certificates","achievements"
+    ];
+
+    const data = {};
+
+    fields.forEach(id => {
+        data[id] = safe(document.getElementById(id).value.trim())
+            .replace(/\n/g, "<br>");
+    });
+
+    const resume = document.getElementById("resume");
+
+    resume.innerHTML = `
+        <h1>${data.name}</h1>
+        <p>${data.email} | ${data.phone} | ${data.location}</p>
+
+        <h3>CAREER OBJECTIVE</h3>
+        <p>${data.objective || "Motivated student seeking opportunities to learn and grow."}</p>
+
+        <h3>EDUCATION</h3>
+        <p><b>${data.degree}</b></p>
+        <p>${data.college}</p>
+        <p>CGPA: ${data.cgpa} | Graduation: ${data.year}</p>
+
+        <h3>TECHNICAL SKILLS</h3>
+        <p>${data.skills}</p>
+
+        <h3>PROJECTS</h3>
+        <p>${data.projects}</p>
+
+        <h3>CERTIFICATIONS</h3>
+        <p>${data.certificates}</p>
+
+        <h3>ACHIEVEMENTS</h3>
+        <p>${data.achievements}</p>
+    `;
+
+    resume.style.display = "block";
+
+    resume.scrollIntoView({behavior:"smooth"});
+}
+
+function printResume() {
+
+    const resume = document.getElementById("resume");
+
+    if(resume.style.display === "none" || !resume.innerHTML) {
+        alert("Please generate your resume first.");
+        return;
+    }
+
+    window.print();
+}
+
+</script>
+
+</body>
+</html>
